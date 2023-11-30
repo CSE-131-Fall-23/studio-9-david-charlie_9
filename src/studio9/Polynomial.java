@@ -10,7 +10,7 @@ public class Polynomial {
 	 * Constructs a Polynomial with no terms yet.
 	 */
 	public Polynomial() {
-		//FIXME
+		list =new LinkedList<>();
 	}
 
 	
@@ -20,7 +20,7 @@ public class Polynomial {
 	 * @return polynomial with added term
 	 */
 	public void addTerm(double coeff) {
-		//FIXME
+		list.add(coeff);
 	}
 	
 	/*
@@ -29,21 +29,64 @@ public class Polynomial {
 	 * Cx^N + Cx^N-1 + ... + Cx + C
 	 */
 	public String toString() {
-		return ""; //FIXME
+		int length = list.size();
+	    StringBuilder result = new StringBuilder();
+
+	    for (int i = 0; i < length; i++) {
+	        double coefficient = list.get(i);
+	        int exponent = length - 1 - i;
+
+	        if (coefficient != 0) {
+	            result.append(coefficient);
+
+	            if (exponent > 0) {
+	                result.append("x");
+
+	                if (exponent > 1) {
+	                    result.append("^").append(exponent);
+	                }
+	            }
+
+	            result.append(" + ");
+	        }
+	    }
+	    if (result.length() > 0) {
+	        result.delete(result.length() - 2, result.length());
+	    }
+
+	    return result.toString();
 	}
 	
+
+
 	/**
 	 * 
 	 * @param x
 	 * @return value of polynomial at that x
 	 */
 	public double evaluate(double x) {
-		return 0;//FIXME
+		int length = list.size();
+	    double result=0;
+        for (int i = 0; i < length; i++) {
+	        double coefficient = list.get(i);
+	        int exponent = length - 1 - i;
+
+	        result += coefficient * Math.pow(x, exponent);
+	    }
+
+	    return result;
 	}
 
 	
 	public Polynomial derivative() {
-		return null;//FIXME
+       Polynomial p=new Polynomial();
+        for (int i = 0; i < list.size()-1; i++) {
+	        double coefficient = list.get(i);
+	        int exponent =  list.size() -1- i;
+            p.addTerm(coefficient*exponent);
+	    }
+
+	    return p;
 	}
 	
 
@@ -96,5 +139,11 @@ public class Polynomial {
 
 		return this.list.equals(other.list);
 	}
+		public static void main(String[]Args) {
+			Polynomial p = new Polynomial();
+			p.addTerm(2);
+			p.addTerm(3);
+			System.out.print(p);
+		}
+	}
 
-}
